@@ -22,13 +22,13 @@ class URINorm():
       elif in_buf.startswith('./'):
         in_buf = in_buf.replace('./','',1)
       else: 
-      #B
+        #B
         if in_buf.startswith('/./'):
           in_buf = in_buf.replace('/./','/',1)
         elif in_buf.startswith('/.') and in_buf[2] != '.':
           in_buf = in_buf.replace('/.','/',1)
         else:
-      #C
+          #C
           if in_buf.startswith('/../'):
             in_buf = in_buf.replace('/../','/',1)
             last_seg = '/' + out_buf.split('/')[-1]
@@ -38,13 +38,15 @@ class URINorm():
             last_seg = '/' + out_buf.split('/')[-1]
             out_buf = out_buf.replace(last_seg, '', -1)
           else:
-      #D
-
-      #E
-            first_path_seg = '/' + in_buf.split('/')[1] 
-            out_buf = ''.join(out_buf + first_path_seg)
-            
-            in_buf = in_buf.replace(first_path_seg,'')
+            #D
+            if '.' in set(in_buf) and len(set(in_buf)) == 1:
+              in_buf = in_buf.replace('.','')
+            else:
+              #E
+              first_path_seg = '/' + in_buf.split('/')[1] 
+              out_buf = ''.join(out_buf + first_path_seg)
+              
+              in_buf = in_buf.replace(first_path_seg,'')
     return prefix + _uri.split('/')[0] + out_buf 
       
 
